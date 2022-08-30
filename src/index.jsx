@@ -4,12 +4,12 @@ import "./index.css";
 
 const GIPHY_API = "https://api.giphy.com/v1/gifs/search?api_key=*api_key_here*&limit=10&offset=0&q=";
 let GIFSearch = () => {
-  let [searchGifs, setSearch] = useState("");
-  let [gifs, setGifs] = useState([]);
-  let [loadingGifs, setLoadingState] = useState(false);
+  const [searchGifs, setSearch] = useState("");
+  const [gifs, setGifs] = useState([]);
+  const [loadingGifs, setLoadingState] = useState(false);
 
 
-  let searchGif = () => {
+  let search = () => {
     if (searchGifs.length > 0) {
       setLoadingState(true);
       fetch(GIPHY_API + searchGifs)
@@ -18,10 +18,10 @@ let GIFSearch = () => {
           return result.json();
         })
         .then((result) => {
-          console.log(result);
-          setGifs(result.data.map((gif) => {
-            return gif.images.fixed_height.url;
-          }))
+          const parsadeGifs =
+            result.data.map(gif =>
+              gif.images.fixed_height.url);
+          setGifs(parsadeGifs);
         })
         .catch(() => {
           alert("Something went wrong");
@@ -52,7 +52,7 @@ let GIFSearch = () => {
             value={searchGifs}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button onClick={searchGif}>
+          <button onClick={search}>
             Search
           </button>
         </div>
